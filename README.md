@@ -4,7 +4,9 @@ This is a simple project of a classic minesweeper game used to show the power an
 
 ## Demo
 
-The game has the [rules of regular minesweeper](https://www.instructables.com/How-to-play-minesweeper/). Currently there is only an easy board (10x8), but in the future medium and hard boards will be availible. It is also currently not mobile friendly. ![Minesweeper Game Demo](https://i.imgur.com/Zz6CETh.png)
+The game has the [rules of regular minesweeper](https://www.instructables.com/How-to-play-minesweeper/). Currently there is only an easy board (10x8), but in the future medium and hard boards will be availible. It is also currently not mobile friendly.
+
+![Minesweeper Game Demo](https://i.imgur.com/Zz6CETh.png)
 
 ## Cloning the Repo
 
