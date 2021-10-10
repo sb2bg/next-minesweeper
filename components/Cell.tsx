@@ -11,6 +11,7 @@ interface CellProps {
   show: boolean;
   index: Index2D;
   color: "light" | "dark";
+  round: 0 | 1 | 2 | 3 | 4;
 }
 
 const Cell: React.FC<CellProps> = ({
@@ -21,6 +22,7 @@ const Cell: React.FC<CellProps> = ({
   show,
   index,
   color,
+  round,
 }) => {
   const [hidden, setHidden] = useState(true);
   const [flagged, setFlagged] = useState(false);
@@ -60,12 +62,23 @@ const Cell: React.FC<CellProps> = ({
       className={`${styles.cell} ${
         hidden
           ? color === "light"
-            ? styles.light
-            : styles.dark
+            ? styles["covered-light"]
+            : styles["covered-dark"]
           : color === "light"
-          ? styles.dug_light
-          : styles.dug_dark
-      } ${value > 0 ? styles[`bomb-${value}`] : ""}`}
+          ? styles["uncovered-light"]
+          : styles["uncovered-dark"]
+      } ${value > 0 ? styles[`bomb-${value}`] : ""}
+      ${
+        round === 4
+          ? styles.br
+          : round === 3
+          ? styles.bl
+          : round === 2
+          ? styles.tr
+          : round === 1
+          ? styles.tl
+          : ""
+      }`}
     >
       <Image
         className={`${flagged ? styles.visible : styles.invisible}`}

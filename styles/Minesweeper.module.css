@@ -18,23 +18,23 @@
   grid-template-rows: repeat(8, 1fr);
 }
 
-.light {
-  background-color: #aad751;
-}
-
 .bomb {
   opacity: 0.7;
 }
 
-.dark {
+.covered-light {
+  background-color: #aad751;
+}
+
+.covered-dark {
   background-color: #a2d149;
 }
 
-.dug_light {
+.uncovered-light {
   background-color: #e5c29f;
 }
 
-.dug_dark {
+.uncovered-dark {
   background-color: #d7b899;
 }
 
@@ -48,19 +48,19 @@
   transition: 700ms;
 }
 
-.cell:first-child {
+.tl {
   border-top-left-radius: 15px;
 }
 
-.cell:last-child {
+.br {
   border-bottom-right-radius: 15px;
 }
 
-.cell:nth-child(10) {
+.tr {
   border-top-right-radius: 15px;
 }
 
-.cell:nth-child(71) {
+.bl {
   border-bottom-left-radius: 15px;
 }
 

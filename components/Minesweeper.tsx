@@ -52,6 +52,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
   const checkWin = () => {
     let allowed = width * height;
 
+    // fixme
     if (flags !== 0) {
       return false;
     }
@@ -140,13 +141,26 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
       <div className={`${styles.board} ${lost || won ? styles.blur : ""}`}>
         {game.map((row, rowIndex) =>
           row.map((value, columnIndex) => {
+            const index = rowIndex * width + columnIndex;
+
             return (
               <Cell
+                round={
+                  index === 0
+                    ? 1
+                    : index === width - 1
+                    ? 2
+                    : index === width * height - width
+                    ? 3
+                    : index === width * height - 1
+                    ? 4
+                    : 0
+                }
                 color={rowIndex % 2 === columnIndex % 2 ? "light" : "dark"}
                 uncover={uncover}
                 updateFlags={updateFlags}
                 onLose={endGame}
-                key={rowIndex * width + columnIndex}
+                key={index}
                 value={value.value}
                 show={value.visible}
                 index={{x: rowIndex, y: columnIndex}}
