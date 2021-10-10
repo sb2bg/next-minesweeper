@@ -96,7 +96,7 @@ const Cell: React.FC<CellProps> = ({
         layout="fill"
         objectFit="contain"
       />
-      {hidden || (value === -1 ? "" : value > 0 && value)}
+      {hidden || (value > 0 && value)}
     </span>
   );
 };
