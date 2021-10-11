@@ -46,7 +46,7 @@
 
 .blur {
   transition: 500ms;
-  filter: blur(3.5px);
+  filter: blur(3px);
   pointer-events: none;
 }
 
