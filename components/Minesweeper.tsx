@@ -1,8 +1,8 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState} from "react";
 import styles from "../styles/Minesweeper.module.css";
 import Cell from "./Cell";
 import {Index2D, MinesweeperCell} from "../types/types";
-import _, {update} from "lodash";
+import _ from "lodash";
 import GameMessage from "./GameMessage";
 import {useStopwatch} from "react-timer-hook";
 
@@ -38,6 +38,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
   const endGame = () => {
     setLost(true);
     setVisibility(true);
+    reset();
     pause();
   };
 
@@ -81,11 +82,8 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
   };
 
   const updateFlags = (value: boolean) => {
-    console.log(flags);
     setFlags(flags + (value ? 1 : -1));
-    console.log(flags);
     checkWin();
-    console.log(flags);
   };
 
   const retry = () => {
