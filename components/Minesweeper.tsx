@@ -187,9 +187,8 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
         )}
       </div>
       <div className={styles.elapsed}>
-        Time Elapsed: {!!days && days + ":"}
-        {!!hours && hours + ":"}
-        {!!minutes && minutes + "m"} {seconds}s
+        Time Elapsed: {!!days && days + "d"} {!!hours && hours + "h"}{" "}
+        {!!minutes && minutes + "m"} {seconds + "s"}
       </div>
       <div className={styles.remaining}>🚩{flags}</div>
     </div>
