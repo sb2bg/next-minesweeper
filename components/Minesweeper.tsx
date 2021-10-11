@@ -4,6 +4,7 @@ import Cell from "./Cell";
 import {Index2D, MinesweeperCell} from "../types/types";
 import _, {update} from "lodash";
 import GameMessage from "./GameMessage";
+import {useStopwatch} from "react-timer-hook";
 
 interface MinesweeperProps {
   width: number;
@@ -16,6 +17,8 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
   const [flags, setFlags] = useState(bombs);
   const [lost, setLost] = useState(false);
   const [won, setWon] = useState(false);
+  const {seconds, minutes, hours, days, isRunning, start, pause, reset} =
+    useStopwatch({autoStart: false});
 
   const updateGame = () => {
     setGame(_.cloneDeep(game));
@@ -35,6 +38,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
   const endGame = () => {
     setLost(true);
     setVisibility(true);
+    pause();
   };
 
   const setVisibility = (visible: boolean) => {
@@ -66,22 +70,32 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
     }
 
     if (allowed === width * height - bombs) {
-      setWon(true);
-      setVisibility(true);
+      gameWon();
     }
   };
 
+  const gameWon = () => {
+    setWon(true);
+    setVisibility(true);
+    pause();
+  };
+
   const updateFlags = (value: boolean) => {
+    console.log(flags);
     setFlags(flags + (value ? 1 : -1));
+    console.log(flags);
     checkWin();
+    console.log(flags);
   };
 
   const retry = () => {
     setLost(false);
     setWon(false);
     setVisibility(false);
-    setTimeout(() => setGame(generateGame(width, height, bombs)), 10);
+    setTimeout(() => setGame(generateGame(width, height, bombs)), 10); // timeout (only 10ms) to prevent the answers to the next generated board being able to be seen
     setFlags(bombs);
+    reset();
+    pause();
   };
 
   const showNeighbors = (index: Index2D, neighbors: boolean) => {
@@ -105,6 +119,10 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
   };
 
   const uncover = (index: Index2D, value: number) => {
+    if (!isRunning) {
+      start();
+    }
+
     showNeighbors(index, value === 0);
     checkWin();
   };
@@ -137,7 +155,6 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
       <GameMessage show={won} retryAction={retry}>
         You Won
       </GameMessage>
-
       <div className={`${styles.board} ${lost || won ? styles.blur : ""}`}>
         {game.map((row, rowIndex) =>
           row.map((value, columnIndex) => {
@@ -168,6 +185,11 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
             );
           })
         )}
+      </div>
+      <div className={styles.elapsed}>
+        Time Elapsed: {!!days && days + ":"}
+        {!!hours && hours + ":"}
+        {!!minutes && minutes + "m"} {seconds}s
       </div>
       <div className={styles.remaining}>🚩{flags}</div>
     </div>

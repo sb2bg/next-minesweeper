@@ -18,6 +18,12 @@
   grid-template-rows: repeat(8, 1fr);
 }
 
+.elapsed {
+  text-align: center;
+  font-size: 30px;
+  margin-top: 45px;
+}
+
 .bomb {
   opacity: 0.7;
 }
