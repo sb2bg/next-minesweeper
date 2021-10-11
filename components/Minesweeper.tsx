@@ -38,7 +38,6 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
   const endGame = () => {
     setLost(true);
     setVisibility(true);
-    reset();
     pause();
   };
 
@@ -118,7 +117,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
 
   const uncover = (index: Index2D, value: number) => {
     if (!isRunning) {
-      start();
+      reset();
     }
 
     showNeighbors(index, value === 0);
@@ -148,7 +147,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
   return (
     <div>
       <GameMessage show={lost} retryAction={retry}>
-        Game Over
+        You Lost
       </GameMessage>
       <GameMessage show={won} retryAction={retry}>
         You Won
