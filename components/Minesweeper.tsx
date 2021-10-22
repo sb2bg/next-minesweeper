@@ -81,8 +81,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
   };
 
   const updateFlags = (value: boolean) => {
-    setFlags(flags + (value ? 1 : -1));
-    checkWin();
+    setFlags(flags + (value ? 1 : -1), checkWin());
   };
 
   const retry = () => {
