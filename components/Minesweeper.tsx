@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styles from "../styles/Minesweeper.module.css";
 import Cell from "./Cell";
 import {Index2D, MinesweeperCell} from "../types/types";
@@ -82,8 +82,11 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
 
   const updateFlags = (value: boolean) => {
     setFlags(flags + (value ? 1 : -1));
-    checkWin();
   };
+
+  useEffect(() => {
+    checkWin();
+  }, [flags]);
 
   const retry = () => {
     setLost(false);
