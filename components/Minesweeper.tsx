@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import styles from "../styles/Minesweeper.module.css";
 import Cell from "./Cell";
 import {Index2D, MinesweeperCell} from "../types/types";
@@ -24,7 +24,10 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
     setGame(_.cloneDeep(game));
   };
 
-  const createCopy = (): {enact: () => void; copy: MinesweeperCell[][]} => {
+  const createCopy = useCallback((): {
+    enact: () => void;
+    copy: MinesweeperCell[][];
+  } => {
     const copied = _.cloneDeep(game);
 
     return {
@@ -33,7 +36,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
       },
       copy: copied,
     };
-  };
+  }, [game]);
 
   const endGame = () => {
     setLost(true);
@@ -41,22 +44,30 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
     pause();
   };
 
-  const setVisibility = (visible: boolean) => {
-    const {copy, enact} = createCopy();
+  const setVisibility = useCallback(
+    (visible: boolean) => {
+      const {copy, enact} = createCopy();
 
-    for (let i = 0; i < copy.length; i++) {
-      for (let j = 0; j < copy[i].length; j++) {
-        copy[i][j] = {value: copy[i][j].value, visible};
+      for (let i = 0; i < copy.length; i++) {
+        for (let j = 0; j < copy[i].length; j++) {
+          copy[i][j] = {value: copy[i][j].value, visible};
+        }
       }
-    }
 
-    enact();
-  };
+      enact();
+    },
+    [createCopy]
+  );
 
-  const checkWin = () => {
+  const gameWon = useCallback(() => {
+    setWon(true);
+    setVisibility(true);
+    pause();
+  }, [pause, setVisibility]);
+
+  const checkWin = useCallback(() => {
     let allowed = width * height;
 
-    // fixme
     if (flags !== 0) {
       return false;
     }
@@ -72,13 +83,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
     if (allowed === width * height - bombs) {
       gameWon();
     }
-  };
-
-  const gameWon = () => {
-    setWon(true);
-    setVisibility(true);
-    pause();
-  };
+  }, [bombs, flags, game, width, gameWon, height]);
 
   const updateFlags = (value: boolean) => {
     setFlags(flags + (value ? 1 : -1));
@@ -86,7 +91,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
 
   useEffect(() => {
     checkWin();
-  }, [flags]);
+  }, [flags, checkWin]);
 
   const retry = () => {
     setLost(false);
