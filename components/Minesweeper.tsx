@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "../styles/Minesweeper.module.css";
 import Cell from "./Cell";
-import {Index2D, MinesweeperCell} from "../types/types";
+import { Index2D, MinesweeperCell } from "../types/types";
 import _ from "lodash";
 import GameMessage from "./GameMessage";
-import {useStopwatch} from "react-timer-hook";
+import { useStopwatch } from "react-timer-hook";
 
 interface MinesweeperProps {
   width: number;
@@ -12,13 +12,13 @@ interface MinesweeperProps {
   bombs: number;
 }
 
-const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
+const Minesweeper: React.FC<MinesweeperProps> = ({ width, height, bombs }) => {
   const [game, setGame] = useState(generateGame(width, height, bombs));
   const [flags, setFlags] = useState(bombs);
   const [lost, setLost] = useState(false);
   const [won, setWon] = useState(false);
-  const {seconds, minutes, hours, days, isRunning, pause, reset} =
-    useStopwatch({autoStart: false});
+  const { seconds, minutes, hours, days, isRunning, pause, reset } =
+    useStopwatch({ autoStart: false });
 
   const updateGame = () => {
     setGame(_.cloneDeep(game));
@@ -46,11 +46,11 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
 
   const setVisibility = useCallback(
     (visible: boolean) => {
-      const {copy, enact} = createCopy();
+      const { copy, enact } = createCopy();
 
       for (let i = 0; i < copy.length; i++) {
         for (let j = 0; j < copy[i].length; j++) {
-          copy[i][j] = {value: copy[i][j].value, visible};
+          copy[i][j] = { value: copy[i][j].value, visible };
         }
       }
 
@@ -112,7 +112,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
     if (neighbors) {
       for (let i of getNeighbors(index)) {
         const value = game[i.x][i.y].value;
-        game[i.x][i.y] = {visible: true, value};
+        game[i.x][i.y] = { visible: true, value };
 
         if (value === 0) {
           showNeighbors(i, true);
@@ -143,7 +143,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
 
         if (index.x + i in game && index.y + j in game[index.x + i]) {
           if (!game[index.x + i][index.y + j].visible) {
-            neighbors.push({x: index.x + i, y: index.y + j});
+            neighbors.push({ x: index.x + i, y: index.y + j });
           }
         }
       }
@@ -185,7 +185,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
                 key={index}
                 value={value.value}
                 show={value.visible}
-                index={{x: rowIndex, y: columnIndex}}
+                index={{ x: rowIndex, y: columnIndex }}
               />
             );
           })
@@ -221,12 +221,12 @@ const generateGame = (
   const mineIndexes = mineLocations(bombs, width * height);
   const result: MinesweeperCell[][] = Array(height)
     .fill(0)
-    .map(() => Array(width).fill({visible: true, value: 0}));
+    .map(() => Array(width).fill({ visible: true, value: 0 }));
 
   for (const element of mineIndexes) {
     const row = Math.floor(element / width);
     const column = element % width;
-    result[row][column] = {visible: false, value: -1};
+    result[row][column] = { visible: false, value: -1 };
   }
 
   for (let i = 0; i < height; i++) {
@@ -249,7 +249,7 @@ const generateGame = (
         }
       }
 
-      result[i][j] = {visible: false, value: bombs};
+      result[i][j] = { visible: false, value: bombs };
     }
   }
 
