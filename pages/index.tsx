@@ -1,4 +1,4 @@
-import type {NextPage} from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import Minesweeper from "../components/Minesweeper";
 import styles from "../styles/Home.module.css";
@@ -14,7 +14,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h3 className={styles.title}>Minesweeper</h3>
-        <Minesweeper height={8} width={10} bombs={10} />
+        <Minesweeper height={10} width={10} bombs={10} />
       </main>
     </div>
   );
