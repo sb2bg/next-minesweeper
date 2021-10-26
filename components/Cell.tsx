@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "../styles/Minesweeper.module.css";
-import {Index2D} from "../types/types";
+import { Index2D } from "../types/types";
 
 interface CellProps {
   value: number;
