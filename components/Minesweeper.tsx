@@ -17,7 +17,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({width, height, bombs}) => {
   const [flags, setFlags] = useState(bombs);
   const [lost, setLost] = useState(false);
   const [won, setWon] = useState(false);
-  const {seconds, minutes, hours, days, isRunning, start, pause, reset} =
+  const {seconds, minutes, hours, days, isRunning, pause, reset} =
     useStopwatch({autoStart: false});
 
   const updateGame = () => {
